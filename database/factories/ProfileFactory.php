@@ -17,7 +17,7 @@ class ProfileFactory extends Factory
             'user_id' => User::factory(),
             'display_name' => $this->faker->name(),
             'handle' => $this->faker->unique()->userName(),
-            'bio' => $this->faker->sentence(2),
+            'bio' => $this->faker->sentences(2, true),
             'avatar_url' => $this->faker->imageUrl(90, 90, 'people'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
