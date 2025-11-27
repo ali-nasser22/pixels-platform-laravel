@@ -7,6 +7,12 @@ use Illuminate\View\View;
 
 class Layout extends Component
 {
+
+
+    public function __construct(public string $title = 'PIXELS')
+    {
+    }
+
     public function render(): View
     {
         return view('components.layout');

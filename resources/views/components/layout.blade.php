@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
     <meta content="dark" name="color-scheme"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>pixels</title>
+    <title>{{$title}}</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 

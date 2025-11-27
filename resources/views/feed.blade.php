@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Pixels - Feed">
     <!--Navigation-->
     @include('partials.navigation')
     <!--Content-->
