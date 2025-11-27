@@ -16,6 +16,7 @@ class PostFactory extends Factory
         return [
             'profile_id' => Profile::factory(),
             'parent_id' => null,
+            'repost_of_id' => null,
             'content' => $this->faker->realText(65),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -29,4 +30,22 @@ class PostFactory extends Factory
             'content' => $this->faker->realText(15)
         ]);
     }
+
+    public function repost(Post $originalPost): PostFactory
+    {
+        return $this->state([
+            'repost_of_id' => $originalPost->id,
+            'content' => null
+        ]);
+    }
+
+    public function quotePost(Post $originalPost): PostFactory
+    {
+        return $this->state([
+            'repost_of_id' => $originalPost->id,
+            'content' => $this->faker->realText(10)
+        ]);
+    }
+
+
 }
