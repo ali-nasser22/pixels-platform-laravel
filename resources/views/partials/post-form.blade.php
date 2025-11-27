@@ -5,10 +5,8 @@
         id="{{$fieldName}}"
         name="{{$fieldName}}"
         placeholder="{{$placeHolder}}"
-        @if(!empty($rows))
-            rows="{{$rows}}"
-        @endif
-        ></textarea>
+        rows="{{$rows ?? 1}}"
+    ></textarea>
     <div class="flex justify-between items-center gap-4">
         <div class="flex gap-4 items-center">
             <button type="button">
