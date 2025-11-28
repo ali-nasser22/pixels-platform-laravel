@@ -17,7 +17,7 @@ test('allows a profile to publish a post', function () {
         ->and($post->repost_of_id)->toBeNull();
 });
 
-test('can reply to test', function () {
+test('can reply to post', function () {
     $original = Post::factory()->create();
     $replier = Profile::factory()->create();
     $reply = Post::reply($replier, $original, 'Great Work G.');
@@ -30,7 +30,7 @@ test('can reply to test', function () {
         ->and($original->replies->first()->id)->toBe($reply->id);
 });
 
-test('can has many replies to test', function () {
+test('can has many replies to post', function () {
     $original = Post::factory()->create();
     $replies = Post::factory(4)->reply($original)->create();
     expect($replies->first()->parent_id)->toBe($original->id);
@@ -41,5 +41,44 @@ test('can has many replies to test', function () {
         ->and($original->replies->first()->id)->toBe($replies->first()->id);
 });
 
+test('can repost to post', function () {
+    $original = Post::factory()->create();
+    $repostProfile = Profile::factory()->create();
+    $repost = Post::repost($repostProfile, $original);
+
+    expect($repost->repostOf->id)->toBe($original->id);
+
+    $original->refresh();
+
+    expect($original->reposts)->toHaveCount(1)
+        ->and($original->reposts->first()->id)->toBe($repost->id)
+        ->and($repost->content)->toBeNull();
+});
 
 
+test('can has many reposts to post', function () {
+    $original = Post::factory()->create();
+    $reposts = Post::factory(4)->repost($original)->create();
+    expect($reposts->first()->repost_of_id)->toBe($original->id);
+
+    $original->refresh();
+
+    expect($original->reposts)->toHaveCount(4)
+        ->and($original->reposts->first()->id)->toBe($reposts->first()->id);
+});
+
+
+test('can quote repost to post', function () {
+    $original = Post::factory()->create();
+    $repostProfile = Profile::factory()->create();
+    $content = "That's Exactly it!!!";
+    $repost = Post::repost($repostProfile, $original, $content);
+
+    expect($repost->repostOf->id)->toBe($original->id);
+
+    $original->refresh();
+
+    expect($original->reposts)->toHaveCount(1)
+        ->and($original->reposts->first()->id)->toBe($repost->id)
+        ->and($repost->content)->toBe($content);
+});
