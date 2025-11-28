@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->foreignId('repost_of_id')->nullable()->constrained('posts')->cascadeOnDelete();
             $table->string('content')->nullable();
             $table->timestamps();
+            $table->unique(['profile_id', 'repost_of_id'], 'unique_profile_reposts');
             $table->index('parent_id');
             $table->index(['profile_id', 'created_at']);
         });

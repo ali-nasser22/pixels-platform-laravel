@@ -12,6 +12,21 @@ class Like extends Model
 
     protected $fillable = ['post_id', 'profile_id'];
 
+    public static function createLike(Profile $profile, Post $post): self
+    {
+        return static::firstOrCreate([
+            'profile_id' => $profile->id,
+            'post_id' => $post->id
+        ]);
+    }
+
+    public static function undoLike(Profile $profile, Post $post): bool
+    {
+        return static::where('profile_id', $profile->id)
+            ->where('post_id', $post->id)
+            ->delete();
+    }
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
