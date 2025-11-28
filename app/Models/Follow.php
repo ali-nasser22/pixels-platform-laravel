@@ -5,12 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use InvalidArgumentException;
 
 class Follow extends Model
 {
     use HasFactory;
 
     protected $fillable = ['follower_profile_id', 'following_profile_id'];
+
+    public static function createFollow(Profile $follower, Profile $following): self
+    {
+        if ($follower->id === $following->id) {
+            throw new InvalidArgumentException('A Profile Cannot Follow itself');
+        }
+        return static::firstOrCreate([
+            'follower_profile_id' => $follower->id,
+            'following_profile_id' => $following->id
+        ]);
+    }
+
+    public static function unfollow(Profile $follower, Profile $following): bool
+    {
+        return static::where('follower_profile_id', $follower->id)
+            ->where('following_profile_id', $following->id)
+            ->delete();
+    }
 
     public function follower(): BelongsTo
     {
