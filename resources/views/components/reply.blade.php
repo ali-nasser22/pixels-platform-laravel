@@ -10,7 +10,9 @@
             <div class="flex items-center gap-2.5">
                 <p><a class="hover:underline"
                       href={{ route('profile.show',$item->profile->handle) }}>{{$item->profile->display_name}}</a></p>
-                <p class="text-xs text-pixel-light/40">{{$item->created_at->diffForHumans()}}</p>
+                <p class="text-xs text-pixel-light/40"><a
+                        href="{{ route('posts.show', ['profile' => $item->profile->handle, 'post' => $item]) }}">{{$item->created_at->diffForHumans()}}</a>
+                </p>
                 <p>
                     <a class="text-xs text-pixel-light/40 hover:text-pixel-light/60 transition-opacity duration-100"
                        href={{ route('profile.show',$item->profile->handle) }}>{{$item->profile->handle}}</a></p>
@@ -178,6 +180,16 @@
                     </div>
                 </div>
             </div>
+        @endif
+        @if($showReplies)
+            <!--Threaded Replies-->
+            <ol>
+                <!--Replies-->
+                @foreach($item->replies as $reply)
+                    <x-reply
+                        :item="$reply" :show-engagement="$showEngagement" :show-replies="$showReplies"/>
+                @endforeach
+            </ol>
         @endif
     </div>
 </li>

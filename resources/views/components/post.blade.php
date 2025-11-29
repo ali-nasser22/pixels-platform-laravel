@@ -10,7 +10,9 @@
                     <p><a class="hover:underline"
                           href={{ route('profile.show',$post->profile->handle) }}>{{$post->profile->display_name}}</a>
                     </p>
-                    <p class="text-xs text-pixel-light/40">{{$post->created_at->diffForHumans()}}</p>
+                    <p class="text-xs text-pixel-light/40"><a
+                            href="{{ route('posts.show', ['profile' => $post->profile->handle, 'post' => $post]) }}">{{$post->created_at->diffForHumans()}}</a>
+                    </p>
                     <p>
                         <a class="text-xs text-pixel-light/40 hover:text-pixel-light/60 transition-opacity duration-100"
                            href="{{ route('profile.show',$post->profile->handle) }}">{{$post->profile->handle}}</a></p>
@@ -41,7 +43,9 @@
                     <div class="flex items-center gap-8">
                         <!-- Like -->
                         <div class="flex items-center gap-1">
-                            <button aria-label="Like" class="hover:text-pixel">
+                            <button aria-label="Like" class="hover:text-pixel" @class([
+    'text-pixel'=>$post->has_liked
+])>
                                 <svg
                                     class="h-[17px]"
                                     fill="none"
@@ -72,7 +76,9 @@
                                     </defs>
                                 </svg>
                             </button>
-                            <span class="text-sm">{{$post->likes_count}}</span>
+                            <span class="text-sm" class="hover:text-pixel" @class([
+    'text-pixel'=>$post->has_liked
+])>{{$post->likes_count}}</span>
                         </div>
                         <!-- Comment -->
                         <div class="flex items-center gap-1">
@@ -109,7 +115,8 @@
                         </div>
                         <!-- Re-post -->
                         <div class="flex items-center gap-1">
-                            <button aria-label="Re-post" class="hover:text-pixel">
+                            <button aria-label="Re-post"
+                                    class="hover:text-pixel" @class(['text-pixel'=>$post->has_reposted])>
                                 <svg
                                     class="h-[17px]"
                                     fill="none"
@@ -182,7 +189,8 @@
                                     />
                                 </svg>
                             </button>
-                            <span class="text-sm">{{$post->reposts_count}}</span>
+                            <span
+                                class="text-sm"  @class(['text-pixel'=>$post->has_reposted])>{{$post->reposts_count}}</span>
                         </div>
                     </div>
                     <div class="flex gap-3 items-center">
@@ -265,13 +273,13 @@
                 </div>
             @endif
         </div>
-        @if($showReplies && $post->relationLoaded('replies'))
+        @if($showReplies)
             <!--Threaded Replies-->
             <ol>
                 <!--Replies-->
                 @foreach($post->replies as $reply)
                     <x-reply
-                        :item="$reply"/>
+                        :item="$reply" :show-engagement="$showEngagement" :show-replies="$showReplies"/>
                 @endforeach
             </ol>
         @endif

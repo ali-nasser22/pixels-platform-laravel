@@ -1,11 +1,11 @@
 <div class="mt-10 border border-pixel-light/10 p-4">
     <h2 class="text-sm text-pixel-light/60">Artists To Follow</h2>
     <ol class="flex flex-col gap-4 list-none mt-4">
-        @foreach($artists as $artist)
+        @foreach($profiles as $profile)
             <li class="flex justify-between items-center gap-4">
                 <div class="flex items-center gap-2.5">
-                    <img alt="Avatar" class="size-8 object-cover" src="images/{{$artist['img']}}">
-                    <p class="text-sm truncate">{{$artist['name']}}</p>
+                    <img alt="Avatar" class="size-8 object-cover" src="{{$profile->avatar_url}}">
+                    <p class="text-sm truncate">{{$profile->display_name}}</p>
                 </div>
                 <button class="bg-pixel-dark/50 border border-pixel/50 px-2 py-1 text-pixel
                         hover:border-pixel/60 hover:bg-pixel-dark/60

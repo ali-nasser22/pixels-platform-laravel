@@ -28,9 +28,9 @@
             <!--Feed Items-->
             @foreach($posts as $item)
                 <x-post
-                    :post="$item->isRepost() && $item->content == null ?$item->repostOf : $item"
+                    :post="$item"
                     :show-engagement="true"
-                    :show-replies="true"/>
+                />
             @endforeach
         </ol>
         <!--Footer-->
