@@ -53,6 +53,11 @@ class Post extends Model
             ->delete();
     }
 
+    public function isRepost(): bool
+    {
+        return $this->repost_of_id != null;
+    }
+
     public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class);
@@ -60,7 +65,7 @@ class Post extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Post::class.'parent_id');
+        return $this->belongsTo(Post::class, 'parent_id');
     }
 
     public function replies(): HasMany|Post

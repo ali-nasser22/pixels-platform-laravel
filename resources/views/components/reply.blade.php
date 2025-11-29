@@ -2,17 +2,18 @@
     <!--Line through-->
     <div aria-hidden="true"
          class="absolute top-0 left-5 w-px h-full group-last/li:h-4 bg-pixel-light/10"></div>
-    <a class="shrink-0 isolate" href="/profile">
+    <a class="shrink-0 isolate" href={{ route('profile.show',$item->profile->handle) }}>
         <img alt="avatar" class="size-10 object-cover" src={{$item->profile->avatar_url}}>
     </a>
     <div class="grow border-b border-pixel-light/10 pb-5 pt-1.5">
         <div class="flex justify-between items-center gap-4">
             <div class="flex items-center gap-2.5">
-                <p><a class="hover:underline" href="/profile">{{$item->profile->display_name}}</a></p>
-                <p class="text-xs text-pixel-light/40">{{$item->postedDateTime}}</p>
+                <p><a class="hover:underline"
+                      href={{ route('profile.show',$item->profile->handle) }}>{{$item->profile->display_name}}</a></p>
+                <p class="text-xs text-pixel-light/40">{{$item->created_at->diffForHumans()}}</p>
                 <p>
                     <a class="text-xs text-pixel-light/40 hover:text-pixel-light/60 transition-opacity duration-100"
-                       href="/profile">{{$item->profile->handle}}</a></p>
+                       href={{ route('profile.show',$item->profile->handle) }}>{{$item->profile->handle}}</a></p>
             </div>
             <button aria-label="Post options" class="flex gap-[3px] group py-2">
                                     <span
@@ -24,7 +25,7 @@
             </button>
         </div>
         <div class="mt-4 text-sm flex flex-col gap-3">
-            {!! $item->content!!}
+            {{$item->content}}
         </div>
         <!--Action buttons-->
         <div class="flex justify-between items-center gap-4 mt-6">
@@ -62,7 +63,7 @@
                             </defs>
                         </svg>
                     </button>
-                    <span class="text-sm">{{$item->likeCount}}</span>
+                    <span class="text-sm">{{$item->likes_count}}</span>
                 </div>
                 <!-- Comment -->
                 <div class="flex items-center gap-1">
@@ -95,7 +96,7 @@
                             </defs>
                         </svg>
                     </button>
-                    <span class="text-sm">{{$item->replyCount}}</span>
+                    <span class="text-sm">{{$item->replies_count}}</span>
                 </div>
                 <!-- Re-post -->
                 <div class="flex items-center gap-1">
@@ -172,7 +173,7 @@
                             />
                         </svg>
                     </button>
-                    <span class="text-sm">{{$item->repostCount}}</span>
+                    <span class="text-sm">{{$item->reposts_count}}</span>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -76,3 +77,6 @@ Route::get("/profile", function () {
     ]));
     return view('profile', compact('feedItems'));
 });
+
+Route::get('/{profile:handle}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/{profile:handle}/with-replies', [ProfileController::class, 'replies'])->name('profile.replies');
